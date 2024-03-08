@@ -26,7 +26,8 @@ public class SecurityConfiguration {
         .requestMatchers("/users/register").permitAll()
         .requestMatchers("/users/login").permitAll()
         // Accès si user connecté
-        .requestMatchers("/pkmn/types").authenticated()
+        .requestMatchers("/pkmn").authenticated()
+        .requestMatchers("/pkmn/**").authenticated()
         
         // Accès si ADMIN
         // .requestMatchers("/pkmn/types").hasAuthority("ROLE_ADMIN")
