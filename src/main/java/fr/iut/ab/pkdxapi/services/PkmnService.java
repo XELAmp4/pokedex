@@ -127,6 +127,24 @@ public class PkmnService {
         return pkmn;
     }
 
+
+    public PkmnData deleteRegion(ObjectId pkmnId,String regionName) {
+        Optional<PkmnData> pokemonOptional = repository.findById(pkmnId);
+        if (pokemonOptional.isPresent()) {
+            PkmnData pokemon = pokemonOptional.get();
+
+            // Recherche de la région à supprimer
+            pokemon.getRegions().removeIf(region -> region.getRegionName().equals(regionName));
+
+            // Enregistrement des modifications
+            repository.save(pokemon);
+
+            return pokemon;
+        } else {
+            throw new PkmnNotFoundException("This pokemon isn't in the database");
+        }
+    }
+
     private boolean pkmnExist(String name){
         return repository.findByName(name).isPresent();
     }

@@ -85,4 +85,13 @@ public class PkmnController {
         PkmnData updatedPkmn = service.updatePkmn(id, name, description, imgURL, typeOne, typeTwo);
         return ResponseEntity.ok(updatedPkmn);
     }
+
+
+    @DeleteMapping("pkmn/region")
+    public PkmnData deletePokemon(
+        @RequestParam ObjectId pkmnID,
+        @RequestParam String regionName
+        ){
+        return service.deleteRegion(pkmnID,regionName);
+    } 
 }
