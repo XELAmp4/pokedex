@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -71,4 +72,17 @@ public class PkmnController {
         service.deletePokemon(id);
         return ResponseEntity.ok("deleted");
     } 
+
+    @PutMapping("pkmn/update")
+    public ResponseEntity<PkmnData> updatePkmn(
+            @RequestParam ObjectId id,
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String description,
+            @RequestParam(required = false) String imgURL,
+            @RequestParam(required = false) String typeOne,
+            @RequestParam(required = false) String typeTwo) {
+
+        PkmnData updatedPkmn = service.updatePkmn(id, name, description, imgURL, typeOne, typeTwo);
+        return ResponseEntity.ok(updatedPkmn);
+    }
 }

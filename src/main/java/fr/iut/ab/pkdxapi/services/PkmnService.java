@@ -94,6 +94,39 @@ public class PkmnService {
         }  
     }
 
+    public PkmnData updatePkmn(ObjectId id, String name, String description, String imgURL, String typeOne, String typeTwo) {
+        PkmnData pkmn = repository.findById(id).orElseThrow();
+
+        if (name != null) {
+            pkmn.setName(name);
+        }
+        if (description != null) {
+            pkmn.setDescription(description);
+        }
+        if (imgURL != null) {
+            pkmn.setImgURL(imgURL);
+        }
+        if (typeOne != null ) {
+            PkmnType type1 = PkmnType.valueOf(typeOne);
+            if (pkmn.getTypes().isEmpty()) {
+                pkmn.getTypes().add(type1);
+            } else {
+                pkmn.getTypes().set(0, type1);
+            }
+        }
+        if (typeTwo != null) {
+            PkmnType type2 = PkmnType.valueOf(typeTwo);
+            if (pkmn.getTypes().size() < 2) {
+                pkmn.getTypes().add(type2);
+            } else {
+                pkmn.getTypes().set(1, type2);
+            }
+        }
+
+        repository.save(pkmn);
+        return pkmn;
+    }
+
     private boolean pkmnExist(String name){
         return repository.findByName(name).isPresent();
     }

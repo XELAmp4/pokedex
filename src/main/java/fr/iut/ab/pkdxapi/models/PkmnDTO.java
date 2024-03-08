@@ -37,4 +37,17 @@ public class PkmnDTO {
     public List<PkmnRegion> getRegions(){
         return regions;
     }
+
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setImgURL(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
 }

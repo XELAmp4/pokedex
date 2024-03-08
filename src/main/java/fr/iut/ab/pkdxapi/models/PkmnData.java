@@ -22,4 +22,6 @@ public class PkmnData extends PkmnDTO {
     public ObjectId getId(){
         return id;
     }
+
+
 }
