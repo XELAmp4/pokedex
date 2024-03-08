@@ -2,6 +2,7 @@ package fr.iut.ab.pkdxapi.controllers;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import fr.iut.ab.pkdxapi.errors.BadParametersException;
 import fr.iut.ab.pkdxapi.models.PkmnDTO;
 import fr.iut.ab.pkdxapi.models.PkmnData;
 import fr.iut.ab.pkdxapi.models.PkmnRegionRequest;
@@ -9,7 +10,9 @@ import fr.iut.ab.pkdxapi.services.PkmnService;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
+import org.bson.types.ObjectId;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -46,5 +49,20 @@ public class PkmnController {
     public List<PkmnData> searchByPartialName(@RequestParam String partialName) {
         return service.findPokemonsByPartialName(partialName);
     }
+
+    @GetMapping("pkmn")
+    public Optional<PkmnData> getMethodName(
+        @RequestParam(required = false) ObjectId id,
+        @RequestParam(required = false) String name) {
+
+        if ((id!= null && name!= null)||(id== null && name== null)) {
+            throw new BadParametersException("Only one parameter required, name or id");
+        }if (id != null) {
+            return service.findPokemonById(id);
+        }else{
+            return service.findPokemonByName(name);
+        }       
+    }
+    
     
 }
