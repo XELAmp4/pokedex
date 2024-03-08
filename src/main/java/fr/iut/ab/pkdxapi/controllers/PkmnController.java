@@ -73,7 +73,7 @@ public class PkmnController {
         return ResponseEntity.ok("deleted");
     } 
 
-    @PutMapping("pkmn/update")
+    @PutMapping("pkmn")
     public ResponseEntity<PkmnData> updatePkmn(
             @RequestParam ObjectId id,
             @RequestParam(required = false) String name,
