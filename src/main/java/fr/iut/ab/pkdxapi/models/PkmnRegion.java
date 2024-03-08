@@ -2,10 +2,10 @@ package fr.iut.ab.pkdxapi.models;
 
 public class PkmnRegion {
     private String regionName;
-    private String regionNumber;
+    private Integer regionNumber;
 
 
-    public PkmnRegion(String regionName, String regionNumber){
+    public PkmnRegion(String regionName, Integer regionNumber){
         this.regionName=regionName;
         this.regionNumber=regionNumber;
     }
@@ -14,7 +14,7 @@ public class PkmnRegion {
         return regionName;
     }
 
-    public String getRegionNumber(){
+    public Integer getRegionNumber(){
         return regionNumber;
     }
 }

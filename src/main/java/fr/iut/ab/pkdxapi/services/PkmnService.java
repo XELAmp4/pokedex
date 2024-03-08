@@ -2,13 +2,18 @@ package fr.iut.ab.pkdxapi.services;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import fr.iut.ab.pkdxapi.errors.PkmnAlreadyExistException;
+import fr.iut.ab.pkdxapi.errors.PkmnNotFoundException;
+import fr.iut.ab.pkdxapi.errors.RegionAlreadyExistException;
 import fr.iut.ab.pkdxapi.models.PkmnDTO;
 import fr.iut.ab.pkdxapi.models.PkmnData;
+import fr.iut.ab.pkdxapi.models.PkmnRegion;
+import fr.iut.ab.pkdxapi.models.PkmnRegionRequest;
 import fr.iut.ab.pkdxapi.models.PkmnType;
 import fr.iut.ab.pkdxapi.repositories.PkmnRepository;
 
@@ -44,6 +49,29 @@ public class PkmnService {
         }
         
     }
+
+    public PkmnData addRegion(PkmnRegionRequest pkmnRegionRequest){
+        Optional<PkmnData> pokemonOptional = repository.findById(pkmnRegionRequest.getPokemonId());
+        if (pokemonOptional.isPresent()) {
+            PkmnData pokemon = pokemonOptional.get();
+            int regionNumber = Integer.parseInt(pkmnRegionRequest.getRegionNumber());
+            PkmnRegion newRegion = new PkmnRegion(pkmnRegionRequest.getRegionName(), regionNumber);
+
+            // Vérifie si la région existe déjà
+            boolean regionExists = pokemon.getRegions().stream()
+                    .anyMatch(region -> region.getRegionName().equals(newRegion.getRegionName()));
+
+            if (!regionExists) {
+                pokemon.getRegions().add(newRegion);
+                repository.save(pokemon);
+                return pokemon;
+            } else {
+                throw new RegionAlreadyExistException("Region already exists for this Pokemon");
+            }
+        }
+        throw new PkmnNotFoundException("This pokemon isn't in database");
+    }
+
 
     private boolean pkmnExist(String name){
         return repository.findByName(name).isPresent();

@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import fr.iut.ab.pkdxapi.models.PkmnDTO;
 import fr.iut.ab.pkdxapi.models.PkmnData;
+import fr.iut.ab.pkdxapi.models.PkmnRegionRequest;
 import fr.iut.ab.pkdxapi.services.PkmnService;
 
 import java.util.Map;
@@ -31,7 +32,11 @@ public class PkmnController {
     @PostMapping("pkmn")
     public PkmnData addPokemon(@RequestBody PkmnDTO pkmnDTO) {
         return service.addPokemon(pkmnDTO);
-    
+    }
+
+    @PostMapping("pkmn/region")
+    public PkmnData addRegion(@RequestBody PkmnRegionRequest pkmnRegionRequest) {
+        return service.addRegion(pkmnRegionRequest);
     }
     
     
