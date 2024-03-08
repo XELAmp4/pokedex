@@ -13,6 +13,8 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.bson.types.ObjectId;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -63,6 +65,10 @@ public class PkmnController {
             return service.findPokemonByName(name);
         }       
     }
-    
-    
+
+    @DeleteMapping("pkmn")
+    public ResponseEntity<String> deletePokemon(@RequestParam ObjectId id){
+        service.deletePokemon(id);
+        return ResponseEntity.ok("deleted");
+    } 
 }

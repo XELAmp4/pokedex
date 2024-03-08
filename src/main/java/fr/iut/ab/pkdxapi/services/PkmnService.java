@@ -86,6 +86,13 @@ public class PkmnService {
         return repository.findById(id);
     }
 
+    public void deletePokemon(ObjectId id) {
+        if (findPokemonById(id).isPresent()) {
+            repository.deleteById(id);
+        }else{
+            throw new PkmnNotFoundException("This pokemon isn't in database");
+        }  
+    }
 
     private boolean pkmnExist(String name){
         return repository.findByName(name).isPresent();

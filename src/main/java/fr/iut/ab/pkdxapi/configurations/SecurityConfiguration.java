@@ -3,6 +3,7 @@ package fr.iut.ab.pkdxapi.configurations;
 import org.springframework.security.config.Customizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -25,12 +26,14 @@ public class SecurityConfiguration {
         // Accès pour tous
         .requestMatchers("/users/register").permitAll()
         .requestMatchers("/users/login").permitAll()
+        // Accès si ADMIN
+        .requestMatchers(HttpMethod.DELETE,"/pkmn/**").hasAuthority("ROLE_ADMIN")
+
         // Accès si user connecté
         .requestMatchers("/pkmn").authenticated()
         .requestMatchers("/pkmn/**").authenticated()
         
-        // Accès si ADMIN
-        // .requestMatchers("/pkmn/types").hasAuthority("ROLE_ADMIN")
+        
     )
     .httpBasic(Customizer.withDefaults()).csrf(csrf->csrf.disable()) ;
     return http.build();
