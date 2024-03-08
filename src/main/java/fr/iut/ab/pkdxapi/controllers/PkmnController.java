@@ -7,11 +7,13 @@ import fr.iut.ab.pkdxapi.models.PkmnData;
 import fr.iut.ab.pkdxapi.models.PkmnRegionRequest;
 import fr.iut.ab.pkdxapi.services.PkmnService;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 
 
@@ -38,6 +40,11 @@ public class PkmnController {
     public PkmnData addRegion(@RequestBody PkmnRegionRequest pkmnRegionRequest) {
         return service.addRegion(pkmnRegionRequest);
     }
-    
+
+
+    @GetMapping("pkmn/search")
+    public List<PkmnData> searchByPartialName(@RequestParam String partialName) {
+        return service.findPokemonsByPartialName(partialName);
+    }
     
 }

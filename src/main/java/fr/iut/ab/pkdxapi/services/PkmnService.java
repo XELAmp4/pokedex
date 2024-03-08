@@ -1,8 +1,10 @@
 package fr.iut.ab.pkdxapi.services;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -70,6 +72,12 @@ public class PkmnService {
             }
         }
         throw new PkmnNotFoundException("This pokemon isn't in database");
+    }
+
+     public List<PkmnData> findPokemonsByPartialName(String partialName) {
+        return repository.findByPartialName(partialName)
+                          .stream()
+                          .collect(Collectors.toList());
     }
 
 
