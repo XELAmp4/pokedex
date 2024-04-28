@@ -28,6 +28,7 @@ public class SecurityConfiguration {
         .requestMatchers("/users/login").permitAll()
         // Accès si ADMIN
         .requestMatchers(HttpMethod.DELETE,"/pkmn/**").hasAuthority("ROLE_ADMIN")
+        .requestMatchers(HttpMethod.PATCH, "/users/update/**").hasAuthority("ROLE_ADMIN")
 
         // Accès si user connecté
         .requestMatchers("/pkmn").authenticated()

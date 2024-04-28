@@ -1,5 +1,7 @@
 package fr.iut.ab.pkdxapi.services;
 
+import java.util.NoSuchElementException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -29,6 +31,57 @@ public class UserDataService {
             UserData udata = new UserData(userDTO.getLogin(), encryptedPassword, userDTO.getIsAdmin());
             repository.insert(udata);
         }  
+    }
+
+    public void updateUsername(String username, String newUsername){
+        UserData existingUser = repository.findById(username)
+            .orElseThrow(() -> new NoSuchElementException("User not found"));
+    
+        if (usernameExist(newUsername)) {
+            throw new UserAlreadyExistException("Username already exists");
+        }
+    
+        // Mettre à jour le nom d'utilisateur
+        existingUser.setUsername(newUsername);
+    
+        // Enregistrer les modifications dans la base de données
+        repository.save(existingUser);
+    }
+
+    public void updatePassword(String username, String newPassword){
+        UserData existingUser = repository.findById(username)
+            .orElseThrow(() -> new NoSuchElementException("User not found"));
+
+        existingUser.setPassword(passwordEncoder.encode(newPassword));
+
+        repository.save(existingUser);
+    }
+
+    public void updateImgURL(String username, String newImgURL){
+        UserData existingUser = repository.findById(username)
+            .orElseThrow(() -> new NoSuchElementException("User not found"));
+
+        existingUser.setImgURL(newImgURL);
+
+        repository.save(existingUser);
+    }
+
+    public void updatePkmnCatch(String username, String pkmnId){
+        UserData existingUser = repository.findById(username)
+            .orElseThrow(() -> new NoSuchElementException("User not found"));
+
+        existingUser.getPkmnCatch().add(pkmnId);
+
+        repository.save(existingUser);
+    }
+
+    public void updatePkmnSeen(String username, String pkmnId){
+        UserData existingUser = repository.findById(username)
+            .orElseThrow(() -> new NoSuchElementException("User not found"));
+
+        existingUser.getPkmnSeen().add(pkmnId);
+
+        repository.save(existingUser);
     }
 
     private boolean usernameExist(String username){
