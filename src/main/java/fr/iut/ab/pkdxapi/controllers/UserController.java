@@ -65,4 +65,16 @@ public class UserController {
         service.updatePkmnSeen(pkmnSeenPatchDTO.getUsername(), pkmnSeenPatchDTO.getPkmnId());
         return ResponseEntity.ok("PkmnSeen updated successfully");
     }
+
+    @PatchMapping("/users/update/remove/pkmnCatch")
+    public ResponseEntity<String> removeFromPkmnCatch(@RequestBody PkmnCatchPatchDTO pkmnCatchPatchDTO) {
+        service.removeFromPkmnCatch(pkmnCatchPatchDTO.getUsername(), pkmnCatchPatchDTO.getPkmnId());
+        return ResponseEntity.ok("Pkmn removed from pkmnCatch successfully");
+    }
+
+    @PatchMapping("/users/update/remove/pkmnSeen")
+    public ResponseEntity<String> removeFromPkmnSeen(@RequestBody PkmnSeenPatchDTO pkmnSeenPatchDTO) {
+        service.removeFromPkmnSeen(pkmnSeenPatchDTO.getUsername(), pkmnSeenPatchDTO.getPkmnId());
+        return ResponseEntity.ok("Pkmn removed from pkmnSeen successfully");
+    }
 }

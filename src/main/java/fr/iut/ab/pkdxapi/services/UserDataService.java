@@ -84,6 +84,29 @@ public class UserDataService {
         repository.save(existingUser);
     }
 
+    public void removeFromPkmnSeen(String username, String pkmnId) {
+        UserData existingUser = repository.findById(username)
+            .orElseThrow(() -> new NoSuchElementException("User not found"));
+    
+        // Retirer l'identifiant de Pokémon de la liste pkmnSeen
+        existingUser.getPkmnSeen().remove(pkmnId);
+    
+        // Enregistrer les modifications dans la base de données
+        repository.save(existingUser);
+    }
+    
+    public void removeFromPkmnCatch(String username, String pkmnId) {
+        UserData existingUser = repository.findById(username)
+            .orElseThrow(() -> new NoSuchElementException("User not found"));
+    
+        // Retirer l'identifiant de Pokémon de la liste pkmnCatch
+        existingUser.getPkmnCatch().remove(pkmnId);
+    
+        // Enregistrer les modifications dans la base de données
+        repository.save(existingUser);
+    }
+    
+
     private boolean usernameExist(String username){
         return repository.findById(username).isPresent();
         
